@@ -1,0 +1,160 @@
+/* Trench Launcher theme: cool slate neutrals, dark-first, tighter corners. Each app sets its own --brand accent. */
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  color-scheme: light;
+  --background: #fbfbfd;
+  --foreground: #0c0d12;
+  --card: #f5f5fa;
+  --card-foreground: #0c0d12;
+  --popover: #ffffff;
+  --popover-foreground: #0c0d12;
+  --primary: #0c0d12;
+  --primary-foreground: #fafaff;
+  --secondary: #eeeff6;
+  --secondary-foreground: #0c0d12;
+  --muted: #eeeff6;
+  --muted-foreground: #5b5e70;
+  --accent: #eeeff6;
+  --accent-foreground: #0c0d12;
+  --destructive: oklch(0.577 0.245 27.325);
+  --ok: oklch(0.55 0.15 150);
+  --brand: #b312d1; /* the accent: buttons, the main wallet, our trades, flashes */
+  --warn: oklch(0.68 0.16 70);
+  --border: #e2e3ee;
+  --input: #e2e3ee;
+  --ring: #9a9db5;
+  --radius: 0.4rem;
+}
+
+.dark {
+  color-scheme: dark; /* native selects, scrollbars and date pickers follow the theme */
+  --background: #090a0f;
+  --foreground: #ececf3;
+  --card: #10111a;
+  --card-foreground: #ececf3;
+  --popover: #10111a;
+  --popover-foreground: #ececf3;
+  --primary: #ececf3;
+  --primary-foreground: #090a0f;
+  --secondary: #161824;
+  --secondary-foreground: #ececf3;
+  --muted: #161824;
+  --muted-foreground: #979bb0;
+  --accent: #1b1d2b;
+  --accent-foreground: #ececf3;
+  --destructive: oklch(0.704 0.191 22.216);
+  --ok: oklch(0.78 0.14 150);
+  --brand: #e06bff;
+  --warn: oklch(0.8 0.14 80);
+  --border: #222538;
+  --input: #2a2d42;
+  --ring: #555a78;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-ok: var(--ok);
+  --color-brand: var(--brand);
+  --color-warn: var(--warn);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* fonts are loaded in app/layout.tsx with next/font */
+  --font-sans: var(--font-app-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-app-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+    letter-spacing: -0.01em;
+    /* a faint wash of the accent behind the top of every page */
+    background-image: radial-gradient(1100px 420px at 50% -120px, color-mix(in oklab, var(--brand) 9%, transparent), transparent 70%);
+    background-repeat: no-repeat;
+  }
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--foreground) 18%, transparent);
+  }
+}
+
+/* Attention, gently (components/ui/motion.tsx): a number shakes when it changes; a line shakes in when it appears and
+   fades out when it goes. Off for people who ask their system for less motion. */
+@keyframes tl-nudge {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { transform: translateX(-1px); }
+  80% { transform: translateX(1px); }
+  100% { transform: translateX(0); }
+}
+@keyframes tl-in {
+  0% { opacity: 0; transform: translateX(-6px); }
+  45% { opacity: 1; transform: translateX(3px); }
+  65% { transform: translateX(-2px); }
+  85% { transform: translateX(1px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes tl-out {
+  0% { opacity: 1; max-height: 4em; }
+  100% { opacity: 0; max-height: 0; transform: translateX(8px); margin-top: 0; margin-bottom: 0; }
+}
+/* the "?" of an option that was just switched on */
+@keyframes tl-wiggle {
+  0% { transform: rotate(0) scale(1); box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand) 60%, transparent); }
+  100% { transform: rotate(0) scale(1); box-shadow: 0 0 0 10px transparent; }
+  10% { transform: rotate(-18deg) scale(1.35); }
+  20% { transform: rotate(16deg) scale(1.35); }
+  30% { transform: rotate(-14deg) scale(1.3); }
+  40% { transform: rotate(12deg) scale(1.25); }
+  50% { transform: rotate(-8deg) scale(1.2); }
+  60% { transform: rotate(6deg) scale(1.15); }
+  70% { transform: rotate(-3deg) scale(1.1); }
+}
+/* a line that just changed: a wash of the brand colour that fades */
+@keyframes tl-flash {
+  0% { background-color: color-mix(in oklab, var(--brand) 30%, transparent); color: var(--brand); }
+  100% { background-color: transparent; }
+}
+.tl-flash { border-radius: 4px; animation: tl-flash 1.4s ease-out; }
+.tl-wiggle { animation: tl-wiggle 0.9s ease-in-out; }
+.tl-nudge { display: inline-block; animation: tl-nudge 0.35s ease-out; }
+.tl-in { animation: tl-in 0.45s ease-out both; }
+.tl-out { overflow: hidden; animation: tl-out 0.3s ease-in forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .tl-nudge, .tl-in, .tl-out, .tl-wiggle, .tl-flash { animation: none; }
+}
